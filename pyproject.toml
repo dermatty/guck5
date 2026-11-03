@@ -1,7 +1,10 @@
 [project]
-name = "guck5"
-version = "0.1.0"
-requires-python = ">=3.14"
-dependencies = [
-    "fastapi[standard]>=0.162.0",
-]
+    name = "guck5"
+    version = "0.1.0"
+    requires-python = ">=3.14"
+    dependencies = [
+        "fastapi[standard]>=0.162.0",
+    ]
+    
+[tool.fastapi]
+    entrypoint = "backend.main:app"
