@@ -2,6 +2,7 @@ from enum import Enum
 
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 favicon_path = "guck5/app/favicon.ico"
 
@@ -12,6 +13,18 @@ class ModelName(str, Enum):
 
 
 app = FastAPI()
+origins = [
+    "http://localhost:5173",
+    "localhost:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 

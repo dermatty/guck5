@@ -13,12 +13,12 @@ TERMINATED = False
 FINISHED = False
 
 class SigHandler:
-    def __init__(self, p, t):
+    def __init__(self, p: mp.Process, t: Thread)-> None:
         self.p = p
         self.t = t
         pass
 
-    def sighandler(self, a, b):
+    def sighandler(self, signum, frame)-> None:
         print("PRESSED ...")
         os.kill(self.p.pid, signal.SIGFPE)
         global TERMINATED
@@ -29,18 +29,18 @@ class SigHandler:
         self.t.join()
         print("AUS - SIGHANDLER")
 
-def start_server():
-    sys.argv = [  # ugly hack
-        "gunicorn",
-        "-b", "0.0.0.0:8000",
-        # "-w", str((multiprocessing.cpu_count() * 2) + 1),
-        "-k", "uvicorn.workers.UvicornWorker",
-        # "--reload",
-        "guck5.app.api:app"
-    ]
-    gunicorn.app.wsgiapp.run()
+# def start_server():
+#     sys.argv = [  # ugly hack
+#         "gunicorn",
+#         "-b", "0.0.0.0:8000",
+#         # "-w", str((multiprocessing.cpu_count() * 2) + 1),
+#         "-k", "uvicorn.workers.UvicornWorker",
+#         # "--reload",
+#         "guck5.app.api:app"
+#     ]
+#     gunicorn.app.wsgiapp.run()
 
-def start_uvicorn():
+def start_uvicorn() -> None:
     uvicorn.run("guck5.app.api:app", reload=True, port=8000, log_level="info")
 
 def start_gunicorn():
@@ -68,22 +68,21 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
     def load(self):
         return self.application
 
-
-app = FastAPI()
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World!"}
-
+# ----------------------------------------------------------------------------------------------
+# this is the main loop
 def main():
     global TERMINATED
     global FINISHED
+    
     while not TERMINATED:
         time.sleep(1)
         print(time.time())  # heartbeat
     print("AUS - MAIN")
     FINISHED = True
 
+# ----------------------------------------------------------------------------------------------
+# this call by the script "uv run guck5 dev/prod"
+#   it starts uvicorn (dev) or gunicorn (prod) and then runs main() above
 def start():
     global TERMINATED
     global FINISHED
@@ -96,10 +95,6 @@ def start():
 
     print("Starting Guck5 in environment " + environment)
 
-    
-    #sh = SigHandler()
-    #signal.signal(signal.SIGINT, sh.sighandler)
-    #signal.signal(signal.SIGTERM, sh.sighandler)
     if environment == "DEV":
         t = Thread(target=main, daemon=True)
         t.start()
@@ -117,12 +112,6 @@ def start():
         signal.signal(signal.SIGTERM, sh.sighandler)
 
         
-    # p = mp.Process(target=mainloop, args=(environment,))
-    # p.start()
-    # sh = SigHandler()
-    # signal.signal(signal.SIGINT, sh.sighandler)
-    # signal.signal(signal.SIGTERM, sh.sighandler)
-    # main()
     
     
 
