@@ -3,7 +3,7 @@ from enum import Enum
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 
-favicon_path = "backend/favicon.ico"
+favicon_path = "guck5/app/favicon.ico"
 
 class ModelName(str, Enum):
     alexnet = "alexnet"
@@ -53,6 +53,6 @@ async def favicon():
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World!!"}
 
 
