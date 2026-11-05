@@ -1,3 +1,4 @@
+// -*- mode: js-jsx-mode; lexical-binding: t; -*-
 import './App.css';
 import './BooksList.jsx';
 import BooksList from './BooksList.jsx';

@@ -1,3 +1,4 @@
+# -*- mode: python-ts-mode; lexical-binding: t; -*-
 from enum import Enum
 
 from fastapi import FastAPI

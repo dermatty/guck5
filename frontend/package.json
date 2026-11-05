@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "javascript-typescript-langserver": "^2.11.3",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "typescript-language-server": "^6.0.3"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",

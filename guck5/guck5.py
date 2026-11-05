@@ -1,11 +1,10 @@
+# -*- mode: python-ts-mode; lexical-binding: t; -*-
 import gunicorn
 import multiprocessing as mp
-import gunicorn.app.wsgiapp
 from threading import Thread
 import time, sys
 from fastapi import FastAPI
 import gunicorn.app.base
-import subprocess
 import uvicorn
 import signal, os
 
@@ -25,7 +24,7 @@ class SigHandler:
         global FINISHED
         TERMINATED = True        
         while not FINISHED:
-             time.sleep(0.1)
+            time.sleep(0.1)
         self.t.join()
         print("AUS - SIGHANDLER")
 
